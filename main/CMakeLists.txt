@@ -1,3 +1,4 @@
 idf_component_register(SRCS "main.c"
                     INCLUDE_DIRS "."
-                    PRIVREQUIRES dht)
+                    PRIV_REQUIRES dht)
+                    

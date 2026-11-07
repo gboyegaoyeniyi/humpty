@@ -1,0 +1,4 @@
+CompileFlags:
+  CompilationDatabase: "build"
+  Add: [-FERROR-LIMIT=0]
+  Remove: [-fstrict-volatile-bitfields, -fzero-init-padding-bits=all, -fno-shrink-wrap, -fno-tree-switch-conversion, -fno-malloc-dce]
