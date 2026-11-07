@@ -1,2 +1,3 @@
-idf_component_register(SRCS "humpty.c"
-                    INCLUDE_DIRS ".")
+idf_component_register(SRCS "main.c"
+                    INCLUDE_DIRS "."
+                    PRIVREQUIRES dht)
