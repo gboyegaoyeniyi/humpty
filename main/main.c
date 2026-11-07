@@ -41,29 +41,30 @@ void app_main(void) {
     ESP_LOGE(OLED_TAG, "Failed to initialize the ssd1306 display!");
   }
 
-  ESP_LOGI(
-      OLED_TAG,
-      "######################## SSD1306 - START #########################");
-
+  float last_temp_val = 0.0;
+  float last_hum_val = 0.0;
   while (1) {
     if (dht_read_data(DHT_SENSOR_TYPE, DHT_GPIO_PIN, &humidity, &temperature) ==
         ESP_OK) {
       float temp_val = temperature / 10.0;
       float hum_val = humidity / 10.0;
 
-      char line1_buf[17];
-      char line2_buf[17];
+      if (temp_val != last_temp_val || hum_val != last_hum_val) {
+        last_temp_val = temp_val;
+        last_hum_val = hum_val;
+        char line1_buf[17];
+        char line2_buf[17];
 
-      snprintf(line1_buf, sizeof(line1_buf), "Temp: %.1f C", temp_val);
-      snprintf(line2_buf, sizeof(line2_buf), "Hum:  %.1f%%", hum_val);
+        snprintf(line1_buf, sizeof(line1_buf), "Temp: %.1f C", temp_val);
+        snprintf(line2_buf, sizeof(line2_buf), "Hum:  %.1f%%", hum_val);
 
-      ssd1306_clear_display(ssd1306_dev_handle, false);
-      ssd1306_set_contrast(ssd1306_dev_handle, 0xff);
+        ssd1306_clear_display(ssd1306_dev_handle, false);
+        ssd1306_set_contrast(ssd1306_dev_handle, 0xff);
 
-      ssd1306_display_text(ssd1306_dev_handle, 0, "Humpty", false);
-      ssd1306_display_text(ssd1306_dev_handle, 1, line1_buf, false);
-      ssd1306_display_text(ssd1306_dev_handle, 2, line2_buf, false);
-
+        ssd1306_display_text(ssd1306_dev_handle, 0, "Humpty", false);
+        ssd1306_display_text(ssd1306_dev_handle, 1, line1_buf, false);
+        ssd1306_display_text(ssd1306_dev_handle, 2, line2_buf, false);
+      }
     } else {
       ESP_LOGE(DHT_TAG, "Could not read data from sensor!");
     }
