@@ -1,0 +1,9 @@
+menu "GPIO PINs Configurations"
+
+    config DHT_GPIO_PIN
+        int "DHT11 sensor data pin"
+        default 4
+        range 0 30
+        help
+            The GPIO pin number to be connected to the DHT11 sensor data line.
+endmenu
