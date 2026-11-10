@@ -3,7 +3,6 @@
 #define SENSOR_H
 
 #include "esp_err.h"
-#include "sdkconfig.h"
 
 typedef struct {
     float humidity;
