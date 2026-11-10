@@ -6,6 +6,6 @@
 
 void displayInit(i2c_master_bus_handle_t i2c_bus_handle, ssd1306_handle_t *ssd1306_handle);
 
-void displaySensorReading(ssd1306_handle_t ssd1306_handle, sensor_data_t sensor_data);
+void displaySensorReading(ssd1306_handle_t ssd1306_handle, sensor_data_t sensor_data, sensor_data_t prev_sensor_data);
 
 #endif

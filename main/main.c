@@ -10,6 +10,7 @@
 #include "hal/i2c_types.h"
 #include "sdkconfig.h"
 #include "sensor.h"
+#include "ssd1306.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -35,13 +36,17 @@ void dht_task(void *pvParameters) {
 
 void display_task(void *pvParameters) {
   sensor_data_t sensor_data;
+  sensor_data_t prev_sensor_data;
+  ssd1306_clear_display(display_handle, false);
+  ssd1306_set_contrast(display_handle, 0xff);
   while (1) {
     if (xSemaphoreTake(g_data_mutex, pdMS_TO_TICKS(100)) == pdTRUE) {
+      prev_sensor_data = sensor_data;
       sensor_data = g_sensor_data;
       xSemaphoreGive(g_data_mutex);
     }
 
-    displaySensorReading(display_handle, sensor_data);
+    displaySensorReading(display_handle, sensor_data, prev_sensor_data);
 
     vTaskDelay(pdMS_TO_TICKS(1000));
   }

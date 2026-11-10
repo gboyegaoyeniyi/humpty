@@ -10,7 +10,8 @@ void displayInit(i2c_master_bus_handle_t i2c_bus_handle,
 }
 
 void displaySensorReading(ssd1306_handle_t ssd1306_handle,
-                          sensor_data_t sensor_data) {
+                          sensor_data_t sensor_data,
+                          sensor_data_t prev_sensor_data) {
   char temp_buf[17];
   char humidity_buf[17];
 
@@ -18,10 +19,14 @@ void displaySensorReading(ssd1306_handle_t ssd1306_handle,
   snprintf(humidity_buf, sizeof(humidity_buf), "Hum: %.1f %%",
            sensor_data.humidity);
 
-  ssd1306_clear_display(ssd1306_handle, false);
-  ssd1306_set_contrast(ssd1306_handle, 0xff);
-
   ssd1306_display_text(ssd1306_handle, 0, "Humpty", false);
-  ssd1306_display_text(ssd1306_handle, 1, temp_buf, false);
-  ssd1306_display_text(ssd1306_handle, 2, humidity_buf, false);
+
+  if (prev_sensor_data.temperature != sensor_data.temperature) {
+    ssd1306_clear_display_page(ssd1306_handle, 1, false);
+    ssd1306_display_text(ssd1306_handle, 1, temp_buf, false);
+  }
+  if (prev_sensor_data.humidity != sensor_data.humidity) {
+    ssd1306_clear_display_page(ssd1306_handle, 2, false);
+    ssd1306_display_text(ssd1306_handle, 2, humidity_buf, false);
+  }
 }
